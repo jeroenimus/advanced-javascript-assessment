@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  isBurgerMenuActive: boolean = false;
+  isBurgerMenuActive = false;
 
   toggleBurgerMenu() {
     this.isBurgerMenuActive = !this.isBurgerMenuActive;
