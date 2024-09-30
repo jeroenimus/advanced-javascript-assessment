@@ -4,15 +4,15 @@ This project was created with [Visual Studio Code](https://visualstudio.microsof
 
 ## Angular
 
-This project was generated with the [Angular CLI](https://github.com/angular/angular-cli).
-
-![Angular Logo](https://angular.dev/assets/images/press-kit/angular_wordmark_gradient.png)
+This project was generated with the [Angular CLI](https://angular.dev/tools/cli).
 
 ## Firebase
 
-This project was made with [Firebase]().
+This project was made with the following [Firebase](https://firebase.google.com) products:
 
-![Firebase Logo](https://firebase.google.com/static/downloads/brand-guidelines/SVG/logo-standard.svg)
+- [App Hosting](https://firebase.google.com/products/app-hosting)
+- [Authentication](https://firebase.google.com/products/auth)
+- [Firestore](https://firebase.google.com/products/firestore)
 
 ## Bulma
 
