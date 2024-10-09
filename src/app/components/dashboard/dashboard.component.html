@@ -11,13 +11,13 @@
       <nav class="level is-unselectable">
         <div class="level-item has-text-centered">
           <div>
-            <p class="title has-text-info-bold">0</p>
+            <p class="title has-text-info-bold">{{ activeLedgerCount | async }}</p>
             <p class="subtitle has-text-info-bold">Ledgers</p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
-            <p class="title has-text-info-bold">0</p>
+            <p class="title has-text-info-bold">{{ archivedLedgerCount | async }}</p>
             <p class="subtitle has-text-info-bold">Archived</p>
           </div>
         </div>
