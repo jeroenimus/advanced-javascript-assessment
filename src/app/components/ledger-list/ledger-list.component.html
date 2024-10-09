@@ -1,0 +1,44 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title">Ledgers</h1>
+    <h2 class="subtitle">List of active ledgers</h2>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="block">
+      <button class="button is-success is-soft" disabled>Add Ledger</button>
+    </div>
+
+    <table class="table is-fullwidth is-hoverable is-striped">
+      <thead>
+        <tr class="has-background-info-soft">
+          <th class="has-text-info-bold">Name</th>
+          <th class="has-text-info-bold">Description</th>
+          <th class="has-text-info-bold">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ledger of ledgers | async; track ledger.id) {
+          <tr>
+            <td>{{ ledger.name }}</td>
+            <td>{{ ledger.description }}</td>
+            <td>
+              <div class="buttons">
+                <button class="button" disabled>View</button>
+                <button class="button" disabled>Edit</button>
+                <button class="button" disabled>Archive</button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr>
+            <td colspan="3">You do not have active ledgers.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

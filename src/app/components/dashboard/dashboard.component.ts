@@ -1,9 +1,22 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+
+import { LedgerService } from '../../services/ledger.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent { }
+export class DashboardComponent implements OnInit {
+  private ledgerService: LedgerService = inject(LedgerService);
+
+  activeLedgerCount!: Promise<number>;
+  archivedLedgerCount!: Promise<number>;
+
+  ngOnInit() {
+    this.activeLedgerCount = this.ledgerService.getActiveLedgerCount();
+    this.archivedLedgerCount = this.ledgerService.getArchivedLedgerCount();
+  }
+}
