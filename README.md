@@ -1,5 +1,7 @@
 # Advanced JavaScript Assessment
 
+![Build workflow](https://github.com/jeroenimus/advanced-javascript-assessment/actions/workflows/build.yaml/badge.svg)
+
 This project was created with [Visual Studio Code](https://visualstudio.microsoft.com/#vscode-section).
 
 ## Angular
