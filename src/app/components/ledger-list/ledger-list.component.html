@@ -1,3 +1,7 @@
+@if (addModalActive) {
+  <app-add-ledger (closeModal)="toggleAddModal()"></app-add-ledger>
+}
+
 <section class="section">
   <div class="container">
     <h1 class="title">Ledgers</h1>
@@ -8,7 +12,7 @@
 <section class="section">
   <div class="container">
     <div class="block">
-      <button class="button is-success is-soft" disabled>Add Ledger</button>
+      <button class="button is-primary is-soft" (click)="toggleAddModal()">Add Ledger</button>
     </div>
 
     <table class="table is-fullwidth is-hoverable is-striped">
@@ -25,17 +29,17 @@
             <td>{{ ledger.name }}</td>
             <td>{{ ledger.description }}</td>
             <td>
-              <div class="buttons">
-                <button class="button" disabled>View</button>
-                <button class="button" disabled>Edit</button>
-                <button class="button" disabled>Archive</button>
+              <div class="buttons are-small">
+                <button class="button is-success is-soft" disabled>View</button>
+                <button class="button is-warning is-soft" disabled>Edit</button>
+                <button class="button is-danger is-soft" disabled>Archive</button>
               </div>
             </td>
           </tr>
         }
         @empty {
           <tr>
-            <td colspan="3">You do not have active ledgers.</td>
+            <td colspan="3">You have no active ledgers.</td>
           </tr>
         }
       </tbody>

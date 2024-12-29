@@ -1,0 +1,17 @@
+<form [formGroup]="ledgerForm">
+  <div class="field">
+    <label class="label" for="name">Name</label>
+    <div class="control">
+      <input id="name" class="input" [class.is-danger]="nameEmpty" formControlName="name" type="text">
+    </div>
+    @if (nameEmpty) {
+      <p class="help is-danger">Name is required</p>
+    }
+  </div>
+  <div class="field">
+    <label class="label" for="description">Description</label>
+    <div class="control">
+      <input id="description" class="input" formControlName="description" type="text">
+    </div>
+  </div>
+</form>
