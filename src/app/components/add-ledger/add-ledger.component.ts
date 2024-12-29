@@ -4,10 +4,9 @@ import { LedgerFormComponent } from '../ledger-form/ledger-form.component';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
-  selector: 'app-add-ledger',
-  standalone: true,
-  imports: [LedgerFormComponent],
-  templateUrl: './add-ledger.component.html'
+    selector: 'app-add-ledger',
+    imports: [LedgerFormComponent],
+    templateUrl: './add-ledger.component.html'
 })
 export class AddLedgerComponent {
   private ledgerService: LedgerService = inject(LedgerService);

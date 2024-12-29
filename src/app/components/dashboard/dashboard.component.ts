@@ -4,10 +4,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './dashboard.component.html'
+    selector: 'app-dashboard',
+    imports: [CommonModule],
+    templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
   private ledgerService: LedgerService = inject(LedgerService);
