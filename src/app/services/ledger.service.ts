@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { Query, collection, getCountFromServer, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { addDoc, collection, getCountFromServer, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { Ledger } from '../interfaces/ledger';
@@ -12,27 +12,14 @@ import { FirebaseService } from './firebase.service';
 export class LedgerService {
   private firebaseService: FirebaseService = inject(FirebaseService);
 
-  getActiveLedgerCount(): Promise<number> {
-    const ledgerCountQuery = query(
+  async getLedgerCount(archived: boolean = false): Promise<number> {
+    const countQuery = query(
       collection(this.firebaseService.firestore, 'ledgers'),
-      where('archived', '==', false)
+      where('archived', '==', archived)
     );
 
-    return this.getLedgerCount(ledgerCountQuery);
-  }
-
-  getArchivedLedgerCount(): Promise<number> {
-    const ledgerCountQuery = query(
-      collection(this.firebaseService.firestore, 'ledgers'),
-      where('archived', '==', true)
-    );
-
-    return this.getLedgerCount(ledgerCountQuery);
-  }
-
-  private async getLedgerCount(ledgerCountQuery: Query): Promise<number> {
     try {
-      const snapshot = await getCountFromServer(ledgerCountQuery)
+      const snapshot = await getCountFromServer(countQuery)
       return snapshot.data().count;
     }
     catch (error) {
@@ -41,27 +28,13 @@ export class LedgerService {
     }
   }
 
-  getActiveLedgers(): Observable<Ledger[]> {
+  getLedgers(archived: boolean = false): Observable<Ledger[]> {
     const ledgersQuery = query(
       collection(this.firebaseService.firestore, 'ledgers'),
-      where('archived', '==', false),
+      where('archived', '==', archived),
       orderBy('name')
     );
-
-    return this.getLedgers(ledgersQuery);
-  }
-
-  getArchivedLedgers(): Observable<Ledger[]> {
-    const ledgersQuery = query(
-      collection(this.firebaseService.firestore, 'ledgers'),
-      where('archived', '==', true),
-      orderBy('name')
-    );
-
-    return this.getLedgers(ledgersQuery);
-  }
-
-  private getLedgers(ledgersQuery: Query): Observable<Ledger[]> {
+    
     return new Observable((subscriber) => {
       const unsubscribe = onSnapshot(ledgersQuery,
       (snapshot) => {
@@ -73,6 +46,14 @@ export class LedgerService {
       });
 
       return () => { unsubscribe(); }
+    });
+  }
+
+  async addLedger(ledgerName: string, ledgerDescription: string) {
+    const docRef = await addDoc(collection(this.firebaseService.firestore, 'ledgers'), {
+      name: ledgerName,
+      description: ledgerDescription,
+      archived: false
     });
   }
 }
