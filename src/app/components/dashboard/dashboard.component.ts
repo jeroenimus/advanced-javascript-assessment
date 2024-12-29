@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   archivedLedgerCount!: Promise<number>;
 
   ngOnInit() {
-    this.activeLedgerCount = this.ledgerService.getActiveLedgerCount();
-    this.archivedLedgerCount = this.ledgerService.getArchivedLedgerCount();
+    this.activeLedgerCount = this.ledgerService.getLedgerCount();
+    this.archivedLedgerCount = this.ledgerService.getLedgerCount(true);
   }
 }
