@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-ledger-form',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './ledger-form.component.html'
+    selector: 'app-ledger-form',
+    imports: [ReactiveFormsModule],
+    templateUrl: './ledger-form.component.html'
 })
 export class LedgerFormComponent {
   ledgerForm = new FormGroup({

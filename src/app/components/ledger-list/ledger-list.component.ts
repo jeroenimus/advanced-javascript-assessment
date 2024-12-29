@@ -8,10 +8,9 @@ import { Ledger } from '../../interfaces/ledger';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
-  selector: 'app-ledger-list',
-  standalone: true,
-  imports: [CommonModule, AddLedgerComponent],
-  templateUrl: './ledger-list.component.html'
+    selector: 'app-ledger-list',
+    imports: [CommonModule, AddLedgerComponent],
+    templateUrl: './ledger-list.component.html'
 })
 export class LedgerListComponent implements OnInit {
   private ledgerService: LedgerService = inject(LedgerService);
