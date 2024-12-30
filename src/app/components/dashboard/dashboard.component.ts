@@ -9,10 +9,10 @@ import { LedgerService } from '../../services/ledger.service';
     templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  private ledgerService: LedgerService = inject(LedgerService);
+  private ledgerService = inject(LedgerService);
 
-  activeLedgerCount!: Promise<number>;
-  archivedLedgerCount!: Promise<number>;
+  activeLedgerCount: Promise<number> | undefined;
+  archivedLedgerCount: Promise<number> | undefined;
 
   ngOnInit() {
     this.activeLedgerCount = this.ledgerService.getLedgerCount();
