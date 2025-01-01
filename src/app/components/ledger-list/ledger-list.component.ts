@@ -29,6 +29,10 @@ export class LedgerListComponent implements OnInit {
     this.selectedLedger = ledger;
   }
 
+  archiveLedger(id: string) {
+    this.ledgerService.archiveLedger(id);
+  }
+
   toggleAddModal() {
     this.addModalActive = !this.addModalActive;
   }
