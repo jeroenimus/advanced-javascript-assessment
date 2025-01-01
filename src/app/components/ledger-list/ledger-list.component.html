@@ -36,7 +36,7 @@
               <div class="buttons are-small">
                 <button class="button is-success is-soft" disabled>View</button>
                 <button class="button is-warning is-soft" (click)="selectLedger(ledger); toggleEditModal()">Edit</button>
-                <button class="button is-danger is-soft" disabled>Archive</button>
+                <button class="button is-danger is-soft" (click)="archiveLedger(ledger.id)">Archive</button>
               </div>
             </td>
           </tr>

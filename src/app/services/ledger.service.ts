@@ -49,32 +49,37 @@ export class LedgerService {
     });
   }
 
-  async addLedger(ledgerName: string, ledgerDescription: string) {
+  async addLedger(name: string, description: string) {
     const ledgerData = {
-      name: ledgerName,
-      description: ledgerDescription,
+      name: name,
+      description: description,
       archived: false
     };
 
     try {
       await addDoc(collection(this.firebaseService.firestore, 'ledgers'), ledgerData);
     }
-    catch (error) {
-      console.error(error);
-    }
+    catch (error) { console.error(error); }
   }
 
-  async editLedger(ledgerId: string, ledgerName: string, ledgerDescription: string) {
+  async editLedger(id: string, name: string, description: string) {
     const ledgerData = {
-      name: ledgerName,
-      description: ledgerDescription
+      name: name,
+      description: description
     };
 
     try {
-      await updateDoc(doc(this.firebaseService.firestore, 'ledgers', ledgerId), ledgerData)
+      await updateDoc(doc(this.firebaseService.firestore, 'ledgers', id), ledgerData);
     }
-    catch (error) {
-      console.error(error);  
+    catch (error) { console.error(error); }
+  }
+
+  async archiveLedger(id: string) {
+    const ledgerData = { archived: true };
+
+    try {
+      await updateDoc(doc(this.firebaseService.firestore, 'ledgers', id), ledgerData);
     }
+    catch (error) { console.error(error); }
   }
 }
