@@ -9,7 +9,7 @@ import { LedgerService } from '../../services/ledger.service';
     templateUrl: './add-ledger.component.html'
 })
 export class AddLedgerComponent {
-  private ledgerService: LedgerService = inject(LedgerService);
+  private ledgerService = inject(LedgerService);
   
   formComponent = viewChild.required(LedgerFormComponent);
   closeModal = output();
@@ -18,10 +18,9 @@ export class AddLedgerComponent {
     const formValid = this.formComponent().ledgerForm.valid;
 
     if (formValid) {
-      const name = this.formComponent().ledgerForm.value.name!;
-      const description = this.formComponent().ledgerForm.value.description!;
+      const formValues = this.formComponent().ledgerForm.getRawValue();
 
-      this.ledgerService.addLedger(name, description);
+      this.ledgerService.addLedger(formValues.name, formValues.description);
       this.closeModal.emit();
     }
     else {

@@ -2,6 +2,10 @@
   <app-add-ledger (closeModal)="toggleAddModal()"></app-add-ledger>
 }
 
+@if (editModalActive && selectedLedger) {
+  <app-edit-ledger [ledger]="selectedLedger" (closeModal)="toggleEditModal()"></app-edit-ledger>
+}
+
 <section class="section">
   <div class="container">
     <h1 class="title">Ledgers</h1>
@@ -31,7 +35,7 @@
             <td>
               <div class="buttons are-small">
                 <button class="button is-success is-soft" disabled>View</button>
-                <button class="button is-warning is-soft" disabled>Edit</button>
+                <button class="button is-warning is-soft" (click)="selectLedger(ledger); toggleEditModal()">Edit</button>
                 <button class="button is-danger is-soft" disabled>Archive</button>
               </div>
             </td>
