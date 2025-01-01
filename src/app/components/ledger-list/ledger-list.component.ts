@@ -4,25 +4,36 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AddLedgerComponent } from '../add-ledger/add-ledger.component';
+import { EditLedgerComponent } from '../edit-ledger/edit-ledger.component';
 import { Ledger } from '../../interfaces/ledger';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
     selector: 'app-ledger-list',
-    imports: [CommonModule, AddLedgerComponent],
+    imports: [CommonModule, AddLedgerComponent, EditLedgerComponent],
     templateUrl: './ledger-list.component.html'
 })
 export class LedgerListComponent implements OnInit {
-  private ledgerService: LedgerService = inject(LedgerService);
+  private ledgerService = inject(LedgerService);
 
   ledgers: Observable<Ledger[]> | undefined;
-  addModalActive: boolean = false;
+  selectedLedger: Ledger | undefined;
+  addModalActive = false;
+  editModalActive = false;
 
   ngOnInit() {
     this.ledgers = this.ledgerService.getLedgers();
   }
 
+  selectLedger(ledger: Ledger) {
+    this.selectedLedger = ledger;
+  }
+
   toggleAddModal() {
     this.addModalActive = !this.addModalActive;
+  }
+
+  toggleEditModal() {
+    this.editModalActive = !this.editModalActive;
   }
 }
