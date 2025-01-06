@@ -21,7 +21,7 @@
             <td>{{ ledger.name }}</td>
             <td>{{ ledger.description }}</td>
             <td>
-              <button class="button is-success is-soft is-small" disabled>Restore</button>
+              <button class="button is-success is-soft is-small" (click)="restoreLedger(ledger.id)">Restore</button>
             </td>
           </tr>
         }

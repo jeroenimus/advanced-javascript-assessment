@@ -19,4 +19,8 @@ export class ArchiveListComponent implements OnInit {
   ngOnInit() {
     this.ledgers = this.ledgerService.getLedgers(true);
   }
+
+  restoreLedger(id: string) {
+    this.ledgerService.restoreLedger(id);
+  }
 }
