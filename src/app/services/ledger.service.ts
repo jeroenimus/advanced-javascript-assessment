@@ -50,35 +50,48 @@ export class LedgerService {
   }
 
   async addLedger(name: string, description: string) {
-    const ledgerData = {
-      name: name,
-      description: description,
-      archived: false
-    };
+    const colRef = collection(this.firebaseService.firestore, 'ledgers');
 
     try {
-      await addDoc(collection(this.firebaseService.firestore, 'ledgers'), ledgerData);
+      await addDoc(colRef, {
+        name: name,
+        description: description,
+        archived: false
+      });
     }
     catch (error) { console.error(error); }
   }
 
   async editLedger(id: string, name: string, description: string) {
-    const ledgerData = {
-      name: name,
-      description: description
-    };
+    const docRef = doc(this.firebaseService.firestore, 'ledgers', id);
 
     try {
-      await updateDoc(doc(this.firebaseService.firestore, 'ledgers', id), ledgerData);
+      await updateDoc(docRef, {
+        name: name,
+        description: description
+      });
     }
     catch (error) { console.error(error); }
   }
 
   async archiveLedger(id: string) {
-    const ledgerData = { archived: true };
+    const docRef = doc(this.firebaseService.firestore, 'ledgers', id);
 
     try {
-      await updateDoc(doc(this.firebaseService.firestore, 'ledgers', id), ledgerData);
+      await updateDoc(docRef, {
+        archived: true
+      });
+    }
+    catch (error) { console.error(error); }
+  }
+
+  async restoreLedger(id: string) {
+    const docRef = doc(this.firebaseService.firestore, 'ledgers', id);
+
+    try {
+      await updateDoc(docRef, {
+        archived: false
+      });
     }
     catch (error) { console.error(error); }
   }
