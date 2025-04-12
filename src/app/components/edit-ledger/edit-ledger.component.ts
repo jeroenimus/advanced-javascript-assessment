@@ -10,7 +10,7 @@ import { LedgerService } from '../../services/ledger.service';
   templateUrl: './edit-ledger.component.html'
 })
 export class EditLedgerComponent {
-  private ledgerService = inject(LedgerService);
+  private readonly ledgerService = inject(LedgerService);
 
   formComponent = viewChild.required(LedgerFormComponent);
   ledger = input.required<Ledger>();

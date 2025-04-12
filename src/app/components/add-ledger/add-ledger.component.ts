@@ -9,7 +9,7 @@ import { LedgerService } from '../../services/ledger.service';
     templateUrl: './add-ledger.component.html'
 })
 export class AddLedgerComponent {
-  private ledgerService = inject(LedgerService);
+  private readonly ledgerService = inject(LedgerService);
   
   formComponent = viewChild.required(LedgerFormComponent);
   closeModal = output();
