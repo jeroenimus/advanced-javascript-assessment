@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -10,11 +11,11 @@ import { LedgerService } from '../../services/ledger.service';
 
 @Component({
     selector: 'app-ledger-list',
-    imports: [CommonModule, AddLedgerComponent, EditLedgerComponent],
+    imports: [CommonModule, RouterModule, AddLedgerComponent, EditLedgerComponent],
     templateUrl: './ledger-list.component.html'
 })
 export class LedgerListComponent implements OnInit {
-  private ledgerService = inject(LedgerService);
+  private readonly ledgerService = inject(LedgerService);
 
   ledgers: Observable<Ledger[]> | undefined;
   selectedLedger: Ledger | undefined;
