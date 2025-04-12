@@ -12,7 +12,7 @@ import { LedgerService } from '../../services/ledger.service';
   templateUrl: './archive-list.component.html'
 })
 export class ArchiveListComponent implements OnInit {
-  private ledgerService = inject(LedgerService);
+  private readonly ledgerService = inject(LedgerService);
 
   ledgers: Observable<Ledger[]> | undefined;
 

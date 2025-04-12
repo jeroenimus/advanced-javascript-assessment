@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { addDoc, collection, doc, getCountFromServer, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getCountFromServer, getDoc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { FirebaseService } from './firebase.service';
@@ -10,7 +10,46 @@ import { Ledger } from '../interfaces/ledger';
   providedIn: 'root'
 })
 export class LedgerService {
-  private firebaseService = inject(FirebaseService);
+  private readonly firebaseService = inject(FirebaseService);
+
+  getLedgers(archived: boolean = false): Observable<Ledger[]> {
+    const ledgersQuery = query(
+      collection(this.firebaseService.firestore, 'ledgers'),
+      where('archived', '==', archived),
+      orderBy('name')
+    );
+    
+    return new Observable((subscriber) => {
+      const unsubscribe = onSnapshot(ledgersQuery,
+      (snapshot) => {
+        const ledgers = snapshot.docs.map((doc) => { 
+          const data = doc.data() as Ledger;
+          return { ...data, id: doc.id };
+        });
+
+        subscriber.next(ledgers);
+      },
+      (error) => {
+        console.error(error);
+      });
+
+      return () => { unsubscribe(); }
+    });
+  }
+
+  async getLedgerById(id: string): Promise<Ledger | undefined> {
+    const docRef = doc(this.firebaseService.firestore, 'ledgers', id);
+    const snapshot = await getDoc(docRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.data() as Ledger;
+      return { ...data, id: snapshot.id };
+    }
+    else {
+      console.warn(`Document '${id}' does not exist.`);
+      return undefined;
+    }
+  }
 
   async getLedgerCount(archived: boolean = false): Promise<number> {
     const countQuery = query(
@@ -24,29 +63,8 @@ export class LedgerService {
     }
     catch (error) {
       console.error(error);
-      return 0;
+      return -1;
     }
-  }
-
-  getLedgers(archived: boolean = false): Observable<Ledger[]> {
-    const ledgersQuery = query(
-      collection(this.firebaseService.firestore, 'ledgers'),
-      where('archived', '==', archived),
-      orderBy('name')
-    );
-    
-    return new Observable((subscriber) => {
-      const unsubscribe = onSnapshot(ledgersQuery,
-      (snapshot) => {
-        const ledgers = snapshot.docs.map((doc) => ({ ...doc.data() as Ledger, id: doc.id }));
-        subscriber.next(ledgers);
-      },
-      (error) => {
-        console.error(error);
-      });
-
-      return () => { unsubscribe(); }
-    });
   }
 
   async addLedger(name: string, description: string) {

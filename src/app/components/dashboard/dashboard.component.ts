@@ -9,7 +9,7 @@ import { LedgerService } from '../../services/ledger.service';
     templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  private ledgerService = inject(LedgerService);
+  private readonly ledgerService = inject(LedgerService);
 
   activeLedgerCount: Promise<number> | undefined;
   archivedLedgerCount: Promise<number> | undefined;
