@@ -1,14 +1,31 @@
+@let entryList = entries | async;
+
 <section class="section">
   <div class="container">
-    <h1 class="title">{{ ledgerName || 'Loading...' }}</h1>
-    <h2 class="subtitle">{{ ledgerDescription || 'Loading...' }}</h2>
+    <h1 class="title">{{ ledgerName ?? 'Loading...' }}</h1>
+    <h2 class="subtitle">{{ ledgerDescription ?? 'Loading...' }}</h2>
     <button class="button is-link is-soft" routerLink="/ledgers">Back to Overview</button>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <table class="table is-fullwidth is-hoverable is-striped">
+    <nav class="level">
+      <div class="level-left">
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <div class="tags are-medium has-addons">
+            <span class="tag has-background-dark-soft has-text-dark-bold">Balance</span>
+            <span class="tag" [class]="(entryList | balance) >= 0 ? 'has-background-success-soft has-text-success-bold' : 'has-background-danger-soft has-text-danger-bold'">
+              {{ entryList | balance | number: '1.2-2' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <table class="table is-fullwidth is-an is-hoverable is-striped">
       <thead>
         <tr class="has-background-info-soft">
           <th class="has-text-info-bold">Date</th>
@@ -18,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (entry of entries | async; track entry.id) {
+        @for (entry of entryList; track entry.id) {
           <tr>
             <td>{{ entry.createdOn | date: 'dd-MM-yyyy' }}</td>
             <td>{{ entry.description }}</td>
