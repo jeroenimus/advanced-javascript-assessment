@@ -23,8 +23,7 @@ export class EditLedgerComponent {
       const formDirty = this.formComponent().ledgerForm.dirty;
       
       if (formDirty) {
-        const formValues = this.formComponent().ledgerForm.getRawValue();
-               
+        const formValues = this.formComponent().ledgerForm.getRawValue();         
         this.ledgerService.editLedger(this.ledger().id, formValues.name, formValues.description);
       }
 

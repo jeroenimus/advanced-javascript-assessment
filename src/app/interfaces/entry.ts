@@ -1,7 +1,7 @@
 export interface Entry {
   id: string;
   description: string;
-  type: 'credit' | 'debit';
   amount: number;
+  type: 'credit' | 'debit';
   createdOn: Date;
 }
