@@ -16,10 +16,12 @@ export class LedgerFormComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.ledgerForm.setValue({
-      name: this.ledgerName(),
-      description: this.ledgerDescription()
-    });
+    if (this.ledgerName() && this.ledgerDescription()) {
+      this.ledgerForm.setValue({
+        name: this.ledgerName(),
+        description: this.ledgerDescription()
+      });
+    }
   }
 
   get nameEmpty(): boolean {
