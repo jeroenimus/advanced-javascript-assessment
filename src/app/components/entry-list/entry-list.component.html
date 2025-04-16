@@ -22,6 +22,19 @@
             </span>
           </div>
         </div>
+        <div class="level-item">
+          <div class="tags are-medium has-addons">
+            <span class="tag has-background-dark-soft has-text-dark-bold">Month</span>
+            <span class="tag has-background-info-soft has-text-info-bold">{{ selectedDate | async | date: 'MMMM y' }}</span>
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="buttons">
+            <button class="button is-info is-soft" (click)="changeMonth(-1)">Previous</button>
+            <button class="button is-info is-soft" (click)="setCurrentMonth()">Current</button>
+            <button class="button is-info is-soft" (click)="changeMonth(1)">Next</button>
+          </div>
+        </div>
       </div>
     </nav>
 
@@ -35,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (entry of entryList; track entry.id) {
+        @for (entry of filteredEntries | async; track entry.id) {
           <tr>
             <td>{{ entry.createdOn | date: 'dd-MM-yyyy' }}</td>
             <td>{{ entry.description }}</td>
@@ -52,7 +65,7 @@
         }
         @empty {
           <tr>
-            <td colspan="4">You have no entries</td>
+            <td colspan="4">You have no entries for this month</td>
           </tr>
         }
       </tbody>
