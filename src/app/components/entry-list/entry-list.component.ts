@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 
 import { Entry } from '../../interfaces/entry';
 import { AmountPipe } from '../../pipes/amount.pipe';
@@ -22,20 +22,56 @@ export class EntryListComponent implements OnInit {
   private readonly ledgerId = this.route.snapshot.params['id'];
 
   entries: Observable<Entry[]> | undefined;
+  filteredEntries: Observable<Entry[]> | undefined;
   ledgerName: string | undefined;
   ledgerDescription: string | undefined;
+  selectedDate = new BehaviorSubject<Date>(new Date());
 
   ngOnInit() {
-    this.loadLedger();
+    this.loadLedgerDetails();
     this.entries = this.entryService.getEntries(this.ledgerId);
+    this.filteredEntries = combineLatest([this.entries, this.selectedDate]).pipe(
+      map(([entries, filterDate]) => this.filterEntries(entries, filterDate))
+    );
   }
 
-  private async loadLedger() {
+  changeMonth(offset: number) {
+    const newDate = new Date(this.selectedDate.value);
+    newDate.setMonth(newDate.getMonth() + offset);
+
+    this.selectedDate.next(newDate);
+  }
+
+  setCurrentMonth() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const selectedMonth = this.selectedDate.value.getMonth();
+    const selectedYear = this.selectedDate.value.getFullYear();
+
+    if (currentMonth !== selectedMonth || currentYear !== selectedYear) {
+      this.selectedDate.next(currentDate);
+    }
+  }
+
+  private async loadLedgerDetails() {
     try {
       const ledger = await this.ledgerService.getLedgerById(this.ledgerId);
       this.ledgerName = ledger?.name;
       this.ledgerDescription = ledger?.description;
     }
     catch (error) { console.error(error); }
+  }
+
+  private filterEntries(entries: Entry[], filter: Date): Entry[] {
+    const filterMonth = filter.getMonth();
+    const filterYear = filter.getFullYear();
+
+    return entries.filter(entry => {
+      const entryMonth = entry.createdOn.getMonth();
+      const entryYear = entry.createdOn.getFullYear();
+
+      return entryMonth === filterMonth && entryYear === filterYear;
+    });
   }
 }

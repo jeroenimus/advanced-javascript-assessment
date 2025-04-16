@@ -34,7 +34,7 @@
             <td>{{ ledger.description }}</td>
             <td>
               <div class="buttons are-small">
-                <button class="button is-success is-soft" [routerLink]="['/ledgers', ledger.id]">View</button>
+                <button class="button is-link is-soft" [routerLink]="['/ledgers', ledger.id]">View</button>
                 <button class="button is-warning is-soft" (click)="selectLedger(ledger); toggleEditModal()">Edit</button>
                 <button class="button is-danger is-soft" (click)="archiveLedger(ledger.id)">Archive</button>
               </div>

@@ -19,6 +19,7 @@ export class AddLedgerComponent {
 
     if (formValid) {
       const formValues = this.formComponent().ledgerForm.getRawValue();
+      
       this.ledgerService.addLedger(formValues.name, formValues.description);
       this.closeModal.emit();
     }
