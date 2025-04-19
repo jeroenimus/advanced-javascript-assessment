@@ -1,0 +1,18 @@
+<div class="modal is-active">
+  <div class="modal-background" (click)="closeModal.emit()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Add Entry</p>
+      <button class="delete" (click)="closeModal.emit()" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <app-entry-form></app-entry-form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success is-soft" (click)="submitEntry()">Add</button>
+        <button class="button is-danger is-soft" (click)="closeModal.emit()">Cancel</button>
+      </div>
+    </footer>
+  </div>
+</div>

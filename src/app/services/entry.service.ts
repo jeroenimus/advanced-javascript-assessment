@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { FirebaseService } from './firebase.service';
 import { Entry } from '../interfaces/entry';
+import { EntryFormValues } from '../interfaces/entry-form-values';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ import { Entry } from '../interfaces/entry';
 export class EntryService {
   private readonly firebaseService = inject(FirebaseService);
 
-  getEntries(id: string): Observable<Entry[]> {
+  getEntries(ledgerId: string): Observable<Entry[]> {
     const entriesQuery = query(
-      collection(this.firebaseService.firestore, `ledgers/${id}/entries`),
+      collection(this.firebaseService.firestore, `ledgers/${ledgerId}/entries`),
       orderBy('createdOn', 'desc')
     );
 
@@ -22,9 +23,10 @@ export class EntryService {
       const unsubscribe = onSnapshot(entriesQuery,
       (snapshot) => {
         const entries = snapshot.docs.map((doc) => {
-          const data = doc.data() as Entry;
-          data.createdOn = doc.data()['createdOn'].toDate();
-          return { ...data, id: doc.id };
+          const entry = doc.data() as Entry;
+          entry.id = doc.id;
+          entry.createdOn = entry.createdOn ? doc.data()['createdOn'].toDate() : new Date();   
+          return entry;
         });
 
         subscriber.next(entries);
@@ -35,5 +37,19 @@ export class EntryService {
 
       return () => { unsubscribe(); }
     });
+  }
+
+  async addEntry(ledgerId: string, formValues: EntryFormValues) {
+    const colRef = collection(this.firebaseService.firestore, `ledgers/${ledgerId}/entries`);
+
+    try {
+      await addDoc(colRef, {
+        description: formValues.description,
+        amount: Number(formValues.amount),
+        type: formValues.type,
+        createdOn: serverTimestamp()
+      });
+    }
+    catch (error) { console.error(error); }
   }
 }
