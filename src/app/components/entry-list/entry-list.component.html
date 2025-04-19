@@ -67,7 +67,7 @@
             <td>
               <div class="buttons are-small">
                 <button class="button is-warning is-soft" (click)="selectEntry(entry); toggleEditModal()">Edit</button>
-                <button class="button is-danger is-soft" disabled>Delete</button>
+                <button class="button is-danger is-soft" (click)="deleteEntry(entry.id)">Delete</button>
               </div>
             </td>
           </tr>
