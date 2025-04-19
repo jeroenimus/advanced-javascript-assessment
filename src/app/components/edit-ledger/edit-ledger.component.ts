@@ -2,6 +2,7 @@ import { Component, inject, input, output, viewChild } from '@angular/core';
 
 import { LedgerFormComponent } from '../ledger-form/ledger-form.component';
 import { Ledger } from '../../interfaces/ledger';
+import { LedgerFormValues } from '../../interfaces/ledger-form-values';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
@@ -23,9 +24,9 @@ export class EditLedgerComponent {
       const formDirty = this.formComponent().ledgerForm.dirty;
       
       if (formDirty) {
-        const formValues = this.formComponent().ledgerForm.getRawValue();
+        const formValues: LedgerFormValues = this.formComponent().ledgerForm.getRawValue();
         
-        this.ledgerService.editLedger(this.ledger().id, formValues.name, formValues.description);
+        this.ledgerService.editLedger(this.ledger().id, formValues);
       }
 
       this.closeModal.emit();
