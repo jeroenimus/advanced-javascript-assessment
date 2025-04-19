@@ -25,7 +25,6 @@ export class EditLedgerComponent {
       
       if (formDirty) {
         const formValues: LedgerFormValues = this.formRef().ledgerForm.getRawValue();
-        
         this.ledgerService.editLedger(this.ledger().id, formValues);
       }
 
