@@ -49,7 +49,7 @@ export class LedgerService {
       return ledger;
     }
     else {
-      console.warn(`Document '${id}' does not exist.`);
+      console.error(`Document '${id}' does not exist.`);
       return undefined;
     }
   }
