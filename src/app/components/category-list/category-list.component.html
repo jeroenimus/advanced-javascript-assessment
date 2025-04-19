@@ -1,0 +1,41 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title">Categories</h1>
+    <h2 class="subtitle">List of categories</h2>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <table class="table is-fullwidth is-hoverable is-striped">
+      <thead>
+        <tr class="has-background-info-soft">
+          <th class="has-text-info-bold">Name</th>
+          <th class="has-text-info-bold">Budget</th>
+          <th class="has-text-info-bold">Ends</th>
+          <th class="has-text-info-bold">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories | async; track category.id) {
+          <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.budget }}</td>
+            <td>{{ category.endDate ?? '∞' }}</td>
+            <td>
+              <div class="buttons are-small">
+                <button class="button is-warning is-soft" disabled>Edit</button>
+                <button class="button is-danger is-soft" disabled>Delete</button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr>
+            <td colspan="4">You have no categories</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
