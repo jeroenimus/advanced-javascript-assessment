@@ -10,8 +10,8 @@ import { numberValidator } from '../../directives/number-validator.directive';
 })
 export class EntryFormComponent implements OnInit {
   entryDescription = input<string>('');
-  entryAmount = input<string>('');
-  entryType = input<string>('credit');
+  entryAmount = input<number>(0);
+  entryType = input<string>('');
 
   entryForm = new FormGroup({
     description: new FormControl('', { nonNullable: true }),
@@ -20,10 +20,10 @@ export class EntryFormComponent implements OnInit {
   });
 
   ngOnInit() {
-    if (this.entryDescription() && this.entryAmount() && this.entryType()) {
+    if (this.entryValuesAvailable()) {
       this.entryForm.setValue({
         description: this.entryDescription(),
-        amount: this.entryAmount(),
+        amount: this.entryAmount().toString(),
         type: this.entryType()
       });
     }
@@ -42,5 +42,11 @@ export class EntryFormComponent implements OnInit {
   get amountTooLow(): boolean {
     const amount = this.entryForm.controls.amount;
     return amount.hasError('min') && amount.touched;
+  }
+
+  private entryValuesAvailable(): boolean {
+    return Boolean(this.entryDescription())
+    && Boolean(this.entryAmount())
+    && Boolean(this.entryType());
   }
 }

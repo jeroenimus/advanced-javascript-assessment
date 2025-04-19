@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 
 import { AddEntryComponent } from '../add-entry/add-entry.component';
+import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { Entry } from '../../interfaces/entry';
 import { AmountPipe } from '../../pipes/amount.pipe';
 import { BalancePipe } from '../../pipes/balance.pipe';
@@ -13,7 +14,7 @@ import { LedgerService } from '../../services/ledger.service';
 
 @Component({
   selector: 'app-entry-list',
-  imports: [CommonModule, RouterModule, AddEntryComponent, AmountPipe, BalancePipe],
+  imports: [CommonModule, RouterModule, AddEntryComponent, EditEntryComponent, AmountPipe, BalancePipe],
   templateUrl: './entry-list.component.html'
 })
 export class EntryListComponent implements OnInit {
@@ -26,9 +27,11 @@ export class EntryListComponent implements OnInit {
   entries: Observable<Entry[]> | undefined;
   filteredEntries: Observable<Entry[]> | undefined;
   selectedDate = new BehaviorSubject<Date>(new Date());
+  selectedEntry: Entry | undefined;
   ledgerName: string | undefined;
   ledgerDescription: string | undefined;
   addModalActive = false;
+  editModalActive = false;
 
   ngOnInit() {
     this.loadLedgerDetails();
@@ -45,8 +48,16 @@ export class EntryListComponent implements OnInit {
     this.selectedDate.next(newDate);
   }
 
+  selectEntry(entry: Entry) {
+    this.selectedEntry = entry;
+  }
+
   toggleAddModal() {
     this.addModalActive = !this.addModalActive;
+  }
+
+  toggleEditModal() {
+    this.editModalActive = !this.editModalActive;
   }
 
   setCurrentMonth() {

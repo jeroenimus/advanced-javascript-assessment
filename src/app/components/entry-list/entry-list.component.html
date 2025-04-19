@@ -4,6 +4,10 @@
   <app-add-entry [ledgerId]="ledgerId" (closeModal)="toggleAddModal()"></app-add-entry>
 }
 
+@if (editModalActive && selectedEntry) {
+  <app-edit-entry [ledgerId]="ledgerId" [entry]="selectedEntry" (closeModal)="toggleEditModal()"></app-edit-entry>
+}
+
 <section class="section">
   <div class="container">
     <h1 class="title">{{ ledgerName ?? 'Loading...' }}</h1>
@@ -62,7 +66,7 @@
             </td>
             <td>
               <div class="buttons are-small">
-                <button class="button is-warning is-soft" disabled>Edit</button>
+                <button class="button is-warning is-soft" (click)="selectEntry(entry); toggleEditModal()">Edit</button>
                 <button class="button is-danger is-soft" disabled>Delete</button>
               </div>
             </td>
