@@ -52,6 +52,10 @@ export class EntryListComponent implements OnInit {
     this.selectedEntry = entry;
   }
 
+  deleteEntry(entryId: string) {
+    this.entryService.deleteEntry(this.ledgerId, entryId);
+  }
+
   toggleAddModal() {
     this.addModalActive = !this.addModalActive;
   }
