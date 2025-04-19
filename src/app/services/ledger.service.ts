@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { FirebaseService } from './firebase.service';
 import { Ledger } from '../interfaces/ledger';
+import { LedgerFormValues } from '../interfaces/ledger-form-values';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,9 @@ export class LedgerService {
       const unsubscribe = onSnapshot(ledgersQuery,
       (snapshot) => {
         const ledgers = snapshot.docs.map((doc) => { 
-          const data = doc.data() as Ledger;
-          return { ...data, id: doc.id };
+          const ledger = doc.data() as Ledger;
+          ledger.id = doc.id;
+          return ledger;
         });
 
         subscriber.next(ledgers);
@@ -42,8 +44,9 @@ export class LedgerService {
     const snapshot = await getDoc(docRef);
 
     if (snapshot.exists()) {
-      const data = snapshot.data() as Ledger;
-      return { ...data, id: snapshot.id };
+      const ledger = snapshot.data() as Ledger;
+      ledger.id = snapshot.id;
+      return ledger;
     }
     else {
       console.warn(`Document '${id}' does not exist.`);
@@ -67,26 +70,26 @@ export class LedgerService {
     }
   }
 
-  async addLedger(name: string, description: string) {
+  async addLedger(formValues: LedgerFormValues) {
     const colRef = collection(this.firebaseService.firestore, 'ledgers');
 
     try {
       await addDoc(colRef, {
-        name: name,
-        description: description,
+        name: formValues.name,
+        description: formValues.description,
         archived: false
       });
     }
     catch (error) { console.error(error); }
   }
 
-  async editLedger(id: string, name: string, description: string) {
+  async editLedger(id: string, formValues: LedgerFormValues) {
     const docRef = doc(this.firebaseService.firestore, 'ledgers', id);
 
     try {
       await updateDoc(docRef, {
-        name: name,
-        description: description
+        name: formValues.name,
+        description: formValues.description
       });
     }
     catch (error) { console.error(error); }

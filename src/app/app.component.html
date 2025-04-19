@@ -5,7 +5,7 @@
       <p class="is-unselectable has-text-primary has-text-weight-semibold">Household Ledger</p>
     </div>
 
-    <a id="navbar-burger" class="navbar-burger" [class.is-active]="isBurgerMenuActive" (click)="toggleBurgerMenu()" role="button" aria-label="menu" [attr.aria-expanded]="isBurgerMenuActive">
+    <a id="navbar-burger" class="navbar-burger" [class.is-active]="burgerMenuActive" (click)="toggleBurgerMenu()" role="button" aria-label="menu" [attr.aria-expanded]="burgerMenuActive">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -13,7 +13,7 @@
     </a>
   </div>
 
-  <div id="navbar-menu" class="navbar-menu" [class.is-active]="isBurgerMenuActive">
+  <div id="navbar-menu" class="navbar-menu" [class.is-active]="burgerMenuActive">
     <div class="navbar-start">
       <a class="navbar-item is-tab" routerLink="/dashboard" routerLinkActive="is-active" ariaCurrentWhenActive="page">Dashboard</a>
       <a class="navbar-item is-tab" routerLink="/ledgers" routerLinkActive="is-active" ariaCurrentWhenActive="page">Ledgers</a>

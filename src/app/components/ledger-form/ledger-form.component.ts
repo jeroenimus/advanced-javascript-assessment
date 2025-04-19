@@ -16,7 +16,7 @@ export class LedgerFormComponent implements OnInit {
   });
 
   ngOnInit() {
-    if (this.ledgerName() && this.ledgerDescription()) {
+    if (this.ledgerValuesAvailable()) {
       this.ledgerForm.setValue({
         name: this.ledgerName(),
         description: this.ledgerDescription()
@@ -27,5 +27,9 @@ export class LedgerFormComponent implements OnInit {
   get nameEmpty(): boolean {
     const name = this.ledgerForm.controls.name;
     return name.hasError('required') && name.touched;
+  }
+
+  private ledgerValuesAvailable(): boolean {
+    return Boolean(this.ledgerName()) && Boolean(this.ledgerDescription());
   }
 }
