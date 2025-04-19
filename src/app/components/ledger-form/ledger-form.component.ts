@@ -7,8 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
     templateUrl: './ledger-form.component.html'
 })
 export class LedgerFormComponent implements OnInit {
-  ledgerName = input('');
-  ledgerDescription = input('');
+  ledgerName = input<string>('');
+  ledgerDescription = input<string>('');
 
   ledgerForm = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: Validators.required }),
@@ -16,10 +16,12 @@ export class LedgerFormComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.ledgerForm.setValue({
-      name: this.ledgerName(),
-      description: this.ledgerDescription()
-    });
+    if (this.ledgerName() && this.ledgerDescription()) {
+      this.ledgerForm.setValue({
+        name: this.ledgerName(),
+        description: this.ledgerDescription()
+      });
+    }
   }
 
   get nameEmpty(): boolean {

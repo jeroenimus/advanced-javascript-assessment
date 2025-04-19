@@ -1,0 +1,34 @@
+<form [formGroup]="entryForm">
+  <div class="field">
+    <label class="label" for="description">Description</label>
+    <div class="control">
+      <input id="description" class="input" formControlName="description" type="text">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="amount">Amount</label>
+    <div class="control">
+      <input id="amount" class="input" [class.is-danger]="amountEmpty || amountNotNumeric || amountTooLow" formControlName="amount" type="text">
+    </div>
+    @if (amountEmpty) {
+      <p class="help is-danger">Amount is required</p>
+    }
+    @else if (amountNotNumeric) {
+      <p class="help is-danger">Amount is not a number</p>
+    }
+    @else if (amountTooLow) {
+      <p class="help is-danger">Amount is too low</p>
+    }
+  </div>
+  <div class="field">
+    <label class="label" for="type">Type</label>
+    <div class="control">
+      <div class="select">
+        <select id="type" formControlName="type">
+          <option value="credit">Credit</option>
+          <option value="debit">Debit</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</form>

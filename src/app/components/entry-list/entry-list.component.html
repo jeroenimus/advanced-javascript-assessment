@@ -1,5 +1,9 @@
 @let entryList = entries | async;
 
+@if (addModalActive) {
+  <app-add-entry [ledgerId]="ledgerId" (closeModal)="toggleAddModal()"></app-add-entry>
+}
+
 <section class="section">
   <div class="container">
     <h1 class="title">{{ ledgerName ?? 'Loading...' }}</h1>
@@ -12,6 +16,7 @@
   <div class="container">
     <nav class="level">
       <div class="level-left">
+        <button class="button is-primary is-soft" (click)="toggleAddModal()">Add Entry</button>
       </div>
       <div class="level-right">
         <div class="level-item">
