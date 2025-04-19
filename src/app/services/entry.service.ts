@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { FirebaseService } from './firebase.service';
@@ -48,6 +48,19 @@ export class EntryService {
         amount: Number(formValues.amount),
         type: formValues.type,
         createdOn: serverTimestamp()
+      });
+    }
+    catch (error) { console.error(error); }
+  }
+
+  async editEntry(ledgerId: string, entryId: string, formValues: EntryFormValues) {
+    const docRef = doc(this.firebaseService.firestore, 'ledgers', ledgerId, 'entries', entryId);
+
+    try {
+      await updateDoc(docRef, {
+        description: formValues.description,
+        amount: Number(formValues.amount),
+        type: formValues.type
       });
     }
     catch (error) { console.error(error); }

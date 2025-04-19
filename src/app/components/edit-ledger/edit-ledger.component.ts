@@ -12,27 +12,26 @@ import { LedgerService } from '../../services/ledger.service';
 })
 export class EditLedgerComponent {
   private readonly ledgerService = inject(LedgerService);
+  private readonly formRef = viewChild.required(LedgerFormComponent);
 
-  formComponent = viewChild.required(LedgerFormComponent);
   ledger = input.required<Ledger>();
   closeModal = output();
 
   submitLedger() {
-    const formValid = this.formComponent().ledgerForm.valid;
+    const formValid = this.formRef().ledgerForm.valid;
 
     if (formValid) {
-      const formDirty = this.formComponent().ledgerForm.dirty;
+      const formDirty = this.formRef().ledgerForm.dirty;
       
       if (formDirty) {
-        const formValues: LedgerFormValues = this.formComponent().ledgerForm.getRawValue();
-        
+        const formValues: LedgerFormValues = this.formRef().ledgerForm.getRawValue();
         this.ledgerService.editLedger(this.ledger().id, formValues);
       }
 
       this.closeModal.emit();
     }
     else {
-      this.formComponent().ledgerForm.markAllAsTouched();
+      this.formRef().ledgerForm.markAllAsTouched();
     }
   }
 }
