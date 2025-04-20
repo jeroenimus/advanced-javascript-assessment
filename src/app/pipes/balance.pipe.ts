@@ -9,7 +9,7 @@ export class BalancePipe implements PipeTransform {
     if (!entries) { return 0; }
 
     return entries.reduce((total, entry) => {
-      return total + (entry.type === 'credit' ? entry.amount : -entry.amount );
+      return total + (entry.type === 'credit' ? entry.amount : -entry.amount);
     }, 0);
   }
 }

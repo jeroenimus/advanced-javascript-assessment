@@ -4,4 +4,5 @@ export interface Entry {
   amount: number;
   type: 'credit' | 'debit';
   createdOn: Date;
+  categoryId: string;
 }
