@@ -17,11 +17,14 @@
         </tr>
       </thead>
       <tbody>
-        @for (category of categories | async; track category.id) {
+        @for (categoryWithEntries of categoriesWithEntries | async; track categoryWithEntries.category.id) {
           <tr>
-            <td>{{ category.name }}</td>
-            <td>{{ category.budget }}</td>
-            <td>{{ category.endDate ?? '∞' }}</td>
+            <td>{{ categoryWithEntries.category.name }}</td>
+            <td [class.has-text-warning]="(categoryWithEntries.entries | balance | percentage: categoryWithEntries.category.budget) >= 80"
+                [class.has-text-danger]="(categoryWithEntries.entries | balance | percentage: categoryWithEntries.category.budget) >= 100">
+              {{ categoryWithEntries.entries | balance }} / {{ categoryWithEntries.category.budget }}
+            </td>
+            <td>{{ categoryWithEntries.category.endDate ?? '∞' }}</td>
             <td>
               <div class="buttons are-small">
                 <button class="button is-warning is-soft" disabled>Edit</button>
