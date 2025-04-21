@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { numberValidator } from '../../directives/number-validator.directive';
@@ -11,13 +11,23 @@ import { numberValidator } from '../../directives/number-validator.directive';
   styleUrl: './category-form.component.scss'
 })
 export class CategoryFormComponent implements OnInit {
+  categoryName = input<string>('');
+  categoryBudget = input<number>(0);
+  categoryEndDate = input<Date | null>(null);
+
   categoryForm = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: Validators.required }),
     budget: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(1), numberValidator()] }),
     endDate: new FormControl('', { nonNullable: true })
   });
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.categoryForm.setValue({
+      name: this.categoryName(),
+      budget: this.categoryBudget() ? this.categoryBudget().toString() : '',
+      endDate: this.categoryEndDate()?.toISOString().split('T')[0] ?? ''
+    });
+  }
 
   get nameEmpty(): boolean {
     const name = this.categoryForm.controls.name;
