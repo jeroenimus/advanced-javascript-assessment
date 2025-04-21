@@ -36,6 +36,10 @@ export class CategoryListComponent implements OnInit {
     this.selectedCategory = category;
   }
 
+  deleteCategory(id: string) {
+    this.categoryService.deleteCategory(id);
+  }
+
   toggleAddModal() {
     this.addModalActive = !this.addModalActive;
   }

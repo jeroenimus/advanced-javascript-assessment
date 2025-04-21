@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { addDoc, collection, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { Category } from '../interfaces/category';
@@ -63,6 +63,15 @@ export class CategoryService {
         budget: Number(formValues.budget),
         endDate: endDate
       });
+    }
+    catch (error) { console.error(error); }
+  }
+
+  async deleteCategory(id: string) {
+    const docRef = doc(this.firebaseService.firestore, 'categories', id);
+
+    try {
+      await deleteDoc(docRef);
     }
     catch (error) { console.error(error); }
   }
