@@ -1,0 +1,32 @@
+<form [formGroup]="categoryForm">
+  <div class="field">
+    <label class="label" for="name">Name</label>
+    <div class="control">
+      <input id="name" class="input" [class.is-danger]="nameEmpty" formControlName="name" type="text">
+    </div>
+    @if (nameEmpty) {
+      <p class="help is-danger">Name is required</p>
+    }
+  </div>
+  <div class="field">
+    <label class="label" for="budget">Budget</label>
+    <div class="control">
+      <input id="budget" class="input" [class.is-danger]="budgetEmpty || budgetNotNumeric || budgetTooLow" formControlName="budget" type="text">
+    </div>
+    @if (budgetEmpty) {
+      <p class="help is-danger">Budget is required</p>
+    }
+    @else if (budgetNotNumeric) {
+      <p class="help is-danger">Budget is not a number</p>
+    }
+    @else if (budgetTooLow) {
+      <p class="help is-danger">Budget is too low</p>
+    }
+  </div>
+  <div class="field">
+    <label class="label" for="endDate">End Date</label>
+    <div class="control">
+      <input id="endDate" class="input is-inline" formControlName="endDate" [min]="currentDate | date: 'yyyy-MM-dd'" (keydown)="$event.preventDefault()" type="date">
+    </div>
+  </div>
+</form>

@@ -1,0 +1,14 @@
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(50%);
+}
+
+input[type='date']:hover::-webkit-calendar-picker-indicator {
+  filter: invert(25%);
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type='date']:hover::-webkit-calendar-picker-indicator {
+    filter: invert(75%);
+  }
+}
