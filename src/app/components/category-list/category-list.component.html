@@ -40,7 +40,7 @@
             <td>
               <div class="buttons are-small">
                 <button class="button is-warning is-soft" (click)="selectCategory(categoryWithEntries.category); toggleEditModal()">Edit</button>
-                <button class="button is-danger is-soft" disabled>Delete</button>
+                <button class="button is-danger is-soft" (click)="deleteCategory(categoryWithEntries.category.id)">Delete</button>
               </div>
             </td>
           </tr>
