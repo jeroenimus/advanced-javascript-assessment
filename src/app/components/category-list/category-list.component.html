@@ -2,6 +2,10 @@
   <app-add-category (closeModal)="toggleAddModal()"></app-add-category>
 }
 
+@if (editModalActive && selectedCategory) {
+  <app-edit-category [category]="selectedCategory" (closeModal)="toggleEditModal()"></app-edit-category>
+}
+
 <section class="section">
   <div class="container">
     <h1 class="title">Categories</h1>
@@ -35,7 +39,7 @@
             <td>{{ categoryWithEntries.category.endDate | date: 'dd-MM-yyyy' }}</td>
             <td>
               <div class="buttons are-small">
-                <button class="button is-warning is-soft" disabled>Edit</button>
+                <button class="button is-warning is-soft" (click)="selectCategory(categoryWithEntries.category); toggleEditModal()">Edit</button>
                 <button class="button is-danger is-soft" disabled>Delete</button>
               </div>
             </td>

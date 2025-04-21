@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { addDoc, collection, endAt, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { Category } from '../interfaces/category';
@@ -45,6 +45,20 @@ export class CategoryService {
 
     try {
       await addDoc(colRef, {
+        name: formValues.name,
+        budget: Number(formValues.budget),
+        endDate: endDate
+      });
+    }
+    catch (error) { console.error(error); }
+  }
+
+  async editCategory(id: string, formValues: CategoryFormValues) {
+    const docRef = doc(this.firebaseService.firestore, 'categories', id);
+    const endDate = formValues.endDate ? new Date(formValues.endDate) : null;
+
+    try {
+      await updateDoc(docRef, {
         name: formValues.name,
         budget: Number(formValues.budget),
         endDate: endDate

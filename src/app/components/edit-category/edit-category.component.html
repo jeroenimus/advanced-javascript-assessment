@@ -1,0 +1,18 @@
+<div class="modal is-active">
+  <div class="modal-background" (click)="closeModal.emit()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit Category</p>
+      <button class="delete" (click)="closeModal.emit()" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <app-category-form [categoryName]="category().name" [categoryBudget]="category().budget" [categoryEndDate]="category().endDate"></app-category-form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success is-soft" (click)="submitCategory()">Edit</button>
+        <button class="button is-danger is-soft" (click)="closeModal.emit()">Cancel</button>
+      </div>
+    </footer>
+  </div>
+</div>
