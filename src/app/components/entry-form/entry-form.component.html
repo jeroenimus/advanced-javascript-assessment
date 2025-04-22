@@ -31,4 +31,17 @@
       </div>
     </div>
   </div>
+  <div class="field">
+    <label class="label" for="categoryId">Category</label>
+    <div class="control">
+      <div class="select">
+        <select id="categoryId" formControlName="categoryId">
+          <option value="">None</option>
+          @for (category of categories(); track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
 </form>

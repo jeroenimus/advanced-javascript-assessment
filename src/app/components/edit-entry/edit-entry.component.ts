@@ -1,6 +1,7 @@
 import { Component, inject, input, output, viewChild } from '@angular/core';
 
 import { EntryFormComponent } from '../entry-form/entry-form.component';
+import { Category } from '../../interfaces/category';
 import { Entry } from '../../interfaces/entry';
 import { EntryFormValues } from '../../interfaces/entry-form-values';
 import { EntryService } from '../../services/entry.service';
@@ -16,6 +17,7 @@ export class EditEntryComponent {
 
   ledgerId = input.required<string>();
   entry = input.required<Entry>();
+  categories = input.required<Category[] | null>();
   closeModal = output();
 
   submitEntry() {

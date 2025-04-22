@@ -1,11 +1,12 @@
 @let entryList = entries | async;
+@let categoryList = categories | async;
 
 @if (addModalActive) {
-  <app-add-entry [ledgerId]="ledgerId" (closeModal)="toggleAddModal()"></app-add-entry>
+  <app-add-entry [ledgerId]="ledgerId" [categories]="categoryList" (closeModal)="toggleAddModal()"></app-add-entry>
 }
 
 @if (editModalActive && selectedEntry) {
-  <app-edit-entry [ledgerId]="ledgerId" [entry]="selectedEntry" (closeModal)="toggleEditModal()"></app-edit-entry>
+  <app-edit-entry [ledgerId]="ledgerId" [entry]="selectedEntry" [categories]="categoryList" (closeModal)="toggleEditModal()"></app-edit-entry>
 }
 
 <section class="section">
@@ -53,6 +54,7 @@
           <th class="has-text-info-bold">Date</th>
           <th class="has-text-info-bold">Description</th>
           <th class="has-text-info-bold">Amount</th>
+          <th class="has-text-info-bold">Category</th>
           <th class="has-text-info-bold">Actions</th>
         </tr>
       </thead>
@@ -64,6 +66,7 @@
             <td [class]="entry.type === 'credit' ? 'has-text-success' : 'has-text-danger'">
               {{ entry.amount | amount: entry.type }}
             </td>
+            <td>{{ entry.categoryId | categoryName: categoryList }}</td>
             <td>
               <div class="buttons are-small">
                 <button class="button is-warning is-soft" (click)="selectEntry(entry); toggleEditModal()">Edit</button>
