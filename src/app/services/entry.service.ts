@@ -39,6 +39,7 @@ export class EntryService {
         description: formValues.description,
         amount: Number(formValues.amount),
         type: formValues.type,
+        categoryId: formValues.categoryId,
         createdOn: serverTimestamp()
       });
     }
@@ -52,7 +53,8 @@ export class EntryService {
       await updateDoc(docRef, {
         description: formValues.description,
         amount: Number(formValues.amount),
-        type: formValues.type
+        type: formValues.type,
+        categoryId: formValues.categoryId
       });
     }
     catch (error) { console.error(error); }

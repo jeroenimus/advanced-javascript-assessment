@@ -6,26 +6,31 @@ import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 
 import { AddEntryComponent } from '../add-entry/add-entry.component';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
+import { Category } from '../../interfaces/category';
 import { Entry } from '../../interfaces/entry';
 import { AmountPipe } from '../../pipes/amount.pipe';
 import { BalancePipe } from '../../pipes/balance.pipe';
+import { CategoryNamePipe } from '../../pipes/category-name.pipe';
+import { CategoryService } from '../../services/category.service';
 import { EntryService } from '../../services/entry.service';
 import { LedgerService } from '../../services/ledger.service';
 
 @Component({
   selector: 'app-entry-list',
-  imports: [CommonModule, RouterModule, AddEntryComponent, EditEntryComponent, AmountPipe, BalancePipe],
+  imports: [CommonModule, RouterModule, AddEntryComponent, EditEntryComponent, AmountPipe, BalancePipe, CategoryNamePipe],
   templateUrl: './entry-list.component.html'
 })
 export class EntryListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly ledgerService = inject(LedgerService);
   private readonly entryService = inject(EntryService);
+  private readonly categoryService = inject(CategoryService);
   
   readonly ledgerId = this.route.snapshot.params['id'];
 
   entries: Observable<Entry[]> | undefined;
   filteredEntries: Observable<Entry[]> | undefined;
+  categories: Observable<Category[]> | undefined;
   selectedDate = new BehaviorSubject<Date>(new Date());
   selectedEntry: Entry | undefined;
   ledgerName: string | undefined;
@@ -35,10 +40,13 @@ export class EntryListComponent implements OnInit {
 
   ngOnInit() {
     this.loadLedgerDetails();
+
     this.entries = this.entryService.getEntries(this.ledgerId);
     this.filteredEntries = combineLatest([this.entries, this.selectedDate]).pipe(
       map(([entries, filterDate]) => this.filterEntries(entries, filterDate))
     );
+
+    this.categories = this.categoryService.getCategories();
   }
 
   changeMonth(offset: number) {
@@ -46,6 +54,18 @@ export class EntryListComponent implements OnInit {
     newDate.setMonth(newDate.getMonth() + offset);
 
     this.selectedDate.next(newDate);
+  }
+
+  setCurrentMonth() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const selectedMonth = this.selectedDate.value.getMonth();
+    const selectedYear = this.selectedDate.value.getFullYear();
+
+    if (currentMonth !== selectedMonth || currentYear !== selectedYear) {
+      this.selectedDate.next(currentDate);
+    }
   }
 
   selectEntry(entry: Entry) {
@@ -62,18 +82,6 @@ export class EntryListComponent implements OnInit {
 
   toggleEditModal() {
     this.editModalActive = !this.editModalActive;
-  }
-
-  setCurrentMonth() {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth();
-    const currentYear = currentDate.getFullYear();
-    const selectedMonth = this.selectedDate.value.getMonth();
-    const selectedYear = this.selectedDate.value.getFullYear();
-
-    if (currentMonth !== selectedMonth || currentYear !== selectedYear) {
-      this.selectedDate.next(currentDate);
-    }
   }
 
   private async loadLedgerDetails() {

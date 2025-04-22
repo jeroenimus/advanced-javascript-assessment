@@ -6,7 +6,7 @@
       <button class="delete" (click)="closeModal.emit()" aria-label="close"></button>
     </header>
     <section class="modal-card-body">
-      <app-entry-form [entryDescription]="entry().description" [entryAmount]="entry().amount" [entryType]="entry().type"></app-entry-form>
+      <app-entry-form [entryDescription]="entry().description" [entryAmount]="entry().amount" [entryType]="entry().type" [entryCategoryId]="entry().categoryId" [categories]="categories()"></app-entry-form>
     </section>
     <footer class="modal-card-foot">
       <div class="buttons">
