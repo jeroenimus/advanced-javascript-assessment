@@ -28,7 +28,7 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesWithEntries = this.categoryService.getCategories().pipe(
-      switchMap(categories => this.withEntries(categories))
+      switchMap(categories => this.combineCategoriesWithEntries(categories))
     );
   }
 
@@ -48,7 +48,7 @@ export class CategoryListComponent implements OnInit {
     this.editModalActive = !this.editModalActive;
   }
 
-  private withEntries(categories: Category[]): Observable<{ category: Category, entries: Entry[] }[]> {
+  private combineCategoriesWithEntries(categories: Category[]): Observable<{ category: Category, entries: Entry[] }[]> {
     const categoriesWithEntries = categories.map(category =>
       this.entryService.getEntriesByCategory(category.id).pipe(
         map(entries => ({ category, entries }))
