@@ -2,7 +2,7 @@
   <div class="field">
     <label class="label" for="name">Name</label>
     <div class="control">
-      <input id="name" class="input" [class.is-danger]="nameEmpty" formControlName="name" type="text">
+      <input id="name" class="input" [class.is-danger]="nameEmpty" formControlName="name" autocomplete="off" type="text">
     </div>
     @if (nameEmpty) {
       <p class="help is-danger">Name is required</p>
