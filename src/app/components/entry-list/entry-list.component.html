@@ -63,7 +63,8 @@
           <tr>
             <td>{{ entry.createdOn | date: 'dd-MM-yyyy' }}</td>
             <td>{{ entry.description }}</td>
-            <td [class]="entry.type === 'credit' ? 'has-text-success' : 'has-text-danger'">
+            <td [class.has-text-success]="entry.type === 'credit'"
+                [class.has-text-danger]="entry.type === 'debit'">
               {{ entry.amount | amount: entry.type }}
             </td>
             <td>{{ entry.categoryId | categoryName: categoryList }}</td>
