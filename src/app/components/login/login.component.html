@@ -1,0 +1,53 @@
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-one-third">
+        <div class="box">
+          <div class="block is-flex is-flex-direction-column is-align-items-center">
+            <figure class="image is-64x64">
+              <img src="logo.png" alt="Logo">
+            </figure>
+            <p class="is-unselectable has-text-primary has-text-weight-semibold">Household Ledger</p>
+          </div>
+          <div class="block">
+            <h1 class="title">Log In</h1>
+          </div>
+          <form [formGroup]="loginForm">
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <div class="control">
+                <input id="email" class="input" [class.is-danger]="emailEmpty || emailNotValid" formControlName="email" autocomplete="email" type="email">
+              </div>
+              @if (emailEmpty) {
+                <p class="help is-danger">Email is required</p>
+              }
+              @else if (emailNotValid) {
+                <p class="help is-danger">Email is not valid</p>
+              }
+            </div>
+            <div class="field">
+              <label class="label" for="password">Password</label>
+              <div class="control">
+                <input id="password" class="input" [class.is-danger]="passwordEmpty" formControlName="password" type="password">
+              </div>
+              @if (passwordEmpty) {
+                <p class="help is-danger">Password is required</p>
+              }
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary is-soft" (click)="login()">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        @if (invalidCredentials) {
+          <div class="notification has-background-danger-soft has-text-danger-bold">
+            <p>Invalid email and/or password</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

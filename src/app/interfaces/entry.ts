@@ -3,6 +3,7 @@ export interface Entry {
   description: string;
   amount: number;
   type: 'credit' | 'debit';
-  createdOn: Date;
   categoryId: string;
+  ownerId: string;
+  createdOn: Date;
 }

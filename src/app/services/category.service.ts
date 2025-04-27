@@ -1,21 +1,32 @@
 import { Injectable, inject } from '@angular/core';
 
-import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getCountFromServer, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
+import { AuthService } from './auth.service';
+import { FirebaseService } from './firebase.service';
 import { Category } from '../interfaces/category';
 import { CategoryFormValues } from '../interfaces/category-form-values';
-import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
   private readonly firebaseService = inject(FirebaseService);
+  private readonly authService = inject(AuthService);
+
+  private readonly firestore: Firestore;
+
+  constructor() {
+    this.firestore = this.firebaseService.firestore;
+  }
 
   getCategories(): Observable<Category[]> {
+    const userId = this.authService.getCurrentUser()?.uid;
+
     const categoriesQuery = query(
-      collection(this.firebaseService.firestore, 'categories'),
+      collection(this.firestore, 'categories'),
+      where('ownerId', '==', userId),
       orderBy('name')
     );
 
@@ -39,22 +50,42 @@ export class CategoryService {
     });
   }
 
+  async getCategoryCount(): Promise<number> {
+    const userId = this.authService.getCurrentUser()?.uid;
+
+    const countQuery = query(
+      collection(this.firestore, 'categories'),
+      where('ownerId', '==', userId)
+    );
+
+    try {
+      const snapshot = await getCountFromServer(countQuery);
+      return snapshot.data().count;
+    }
+    catch (error) {
+      console.error(error);
+      return -1;  
+    }
+  }
+
   async addCategory(formValues: CategoryFormValues) {
-    const colRef = collection(this.firebaseService.firestore, 'categories');
+    const colRef = collection(this.firestore, 'categories');
     const endDate = formValues.endDate ? new Date(formValues.endDate) : null;
+    const userId = this.authService.getCurrentUser()?.uid;
 
     try {
       await addDoc(colRef, {
         name: formValues.name,
         budget: Number(formValues.budget),
-        endDate: endDate
+        endDate: endDate,
+        ownerId: userId
       });
     }
     catch (error) { console.error(error); }
   }
 
   async editCategory(id: string, formValues: CategoryFormValues) {
-    const docRef = doc(this.firebaseService.firestore, 'categories', id);
+    const docRef = doc(this.firestore, 'categories', id);
     const endDate = formValues.endDate ? new Date(formValues.endDate) : null;
 
     try {
@@ -68,7 +99,7 @@ export class CategoryService {
   }
 
   async deleteCategory(id: string) {
-    const docRef = doc(this.firebaseService.firestore, 'categories', id);
+    const docRef = doc(this.firestore, 'categories', id);
 
     try {
       await deleteDoc(docRef);

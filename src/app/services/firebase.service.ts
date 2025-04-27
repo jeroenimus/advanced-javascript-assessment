@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 @Injectable({
@@ -17,4 +18,5 @@ export class FirebaseService {
   });
 
   readonly firestore = getFirestore(this.firebaseApp);
+  readonly auth = getAuth(this.firebaseApp);
 }

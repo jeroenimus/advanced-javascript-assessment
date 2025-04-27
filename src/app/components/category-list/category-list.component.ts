@@ -28,7 +28,7 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesWithEntries = this.categoryService.getCategories().pipe(
-      switchMap(categories => this.combineCategoriesWithEntries(categories))
+      switchMap((categories) => this.combineCategoriesWithEntries(categories))
     );
   }
 
@@ -49,11 +49,11 @@ export class CategoryListComponent implements OnInit {
   }
 
   private combineCategoriesWithEntries(categories: Category[]): Observable<{ category: Category, entries: Entry[] }[]> {
-    const categoriesWithEntries = categories.map(category =>
-      this.entryService.getEntriesByCategory(category.id).pipe(
-        map(entries => ({ category, entries }))
+    const categoriesWithEntries = categories.map((category) => {
+      return this.entryService.getEntriesByCategory(category.id).pipe(
+        map((entries) => ({ category, entries }))
       )
-    );
+    });
 
     return combineLatest(categoriesWithEntries);
   }

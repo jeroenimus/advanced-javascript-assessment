@@ -3,4 +3,5 @@ export interface Ledger {
   name: string;
   description: string;
   archived: boolean;
+  ownerId: string;
 }
