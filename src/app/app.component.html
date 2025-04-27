@@ -1,41 +1,44 @@
-<nav class="navbar has-shadow" role="navigation" aria-label="main">
-  <div class="navbar-brand">
-    <div class="navbar-item">
-      <img src="logo.png" alt="Logo">
-      <p class="is-unselectable has-text-primary has-text-weight-semibold">Household Ledger</p>
-    </div>
-
-    <a id="navbar-burger" class="navbar-burger" [class.is-active]="burgerMenuActive" (click)="toggleBurgerMenu()" role="button" aria-label="menu" [attr.aria-expanded]="burgerMenuActive">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbar-menu" class="navbar-menu" [class.is-active]="burgerMenuActive">
-    <div class="navbar-start">
-      <a class="navbar-item is-tab" routerLink="/dashboard" routerLinkActive="is-active" ariaCurrentWhenActive="page">Dashboard</a>
-      <a class="navbar-item is-tab" routerLink="/ledgers" routerLinkActive="is-active" ariaCurrentWhenActive="page">Ledgers</a>
-      <a class="navbar-item is-tab" routerLink="/categories" routerLinkActive="is-active" ariaCurrentWhenActive="page">Categories</a>
-    </div>
-
-    <div class="navbar-end">
-      <a class="navbar-item is-tab" routerLink="/archive" routerLinkActive="is-active" ariaCurrentWhenActive="page">Archive</a>
+@if (router.url !== '/login') {
+  <nav class="navbar has-shadow" role="navigation" aria-label="main">
+    <div class="navbar-brand">
       <div class="navbar-item">
-        <p class="is-unselectable has-text-weight-semibold">© 2025 Jeroen van Vugt</p>
+        <img src="logo.png" alt="Logo">
+        <p class="is-unselectable has-text-primary has-text-weight-semibold">Household Ledger</p>
       </div>
-      <div class="navbar-item">
-        <a href="https://bulma.io" target="_blank">
-          <picture>
-            <source srcset="https://bulma.io/assets/images/made-with-bulma--dark.png" media="(prefers-color-scheme: dark)">
-            <img id="made-with-bulma" src="https://bulma.io/assets/images/made-with-bulma.png" alt="Made with Bulma">
-          </picture>
-        </a>
+
+      <a id="navbar-burger" class="navbar-burger" [class.is-active]="burgerMenuActive" (click)="toggleBurgerMenu()" role="button" aria-label="menu" [attr.aria-expanded]="burgerMenuActive">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbar-menu" class="navbar-menu" [class.is-active]="burgerMenuActive">
+      <div class="navbar-start">
+        <a class="navbar-item is-tab" routerLink="/dashboard" routerLinkActive="is-active" ariaCurrentWhenActive="page">Dashboard</a>
+        <a class="navbar-item is-tab" routerLink="/ledgers" routerLinkActive="is-active" ariaCurrentWhenActive="page">Ledgers</a>
+        <a class="navbar-item is-tab" routerLink="/categories" routerLinkActive="is-active" ariaCurrentWhenActive="page">Categories</a>
+      </div>
+
+      <div class="navbar-end">
+        <a class="navbar-item is-tab" routerLink="/archive" routerLinkActive="is-active" ariaCurrentWhenActive="page">Archive</a>
+        <a class="navbar-item is-tab" (click)="logout()">Logout</a>
+        <div class="navbar-item">
+          <p class="is-unselectable has-text-weight-semibold">© 2025 Jeroen van Vugt</p>
+        </div>
+        <div class="navbar-item">
+          <a href="https://bulma.io" target="_blank">
+            <picture>
+              <source srcset="https://bulma.io/assets/images/made-with-bulma--dark.png" media="(prefers-color-scheme: dark)">
+              <img id="made-with-bulma" src="https://bulma.io/assets/images/made-with-bulma.png" alt="Made with Bulma">
+            </picture>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+}
 
 <main>
   <router-outlet></router-outlet>

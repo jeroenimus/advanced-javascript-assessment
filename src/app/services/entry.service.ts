@@ -1,21 +1,29 @@
 import { Injectable, inject } from '@angular/core';
 
-import { Query, addDoc, collection, collectionGroup, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { Firestore, Query, addDoc, collection, collectionGroup, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 import { FirebaseService } from './firebase.service';
 import { Entry } from '../interfaces/entry';
 import { EntryFormValues } from '../interfaces/entry-form-values';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntryService {
   private readonly firebaseService = inject(FirebaseService);
+  private readonly authService = inject(AuthService);
+  
+  private readonly firestore: Firestore;
+
+  constructor() {
+    this.firestore = this.firebaseService.firestore;
+  }
 
   getEntries(ledgerId: string): Observable<Entry[]> {
     const entriesQuery = query(
-      collection(this.firebaseService.firestore, `ledgers/${ledgerId}/entries`),
+      collection(this.firestore, `ledgers/${ledgerId}/entries`),
       orderBy('createdOn', 'desc')
     );
 
@@ -23,16 +31,20 @@ export class EntryService {
   }
 
   getEntriesByCategory(categoryId: string): Observable<Entry[]> {
+    const userId = this.authService.getCurrentUser()?.uid;
+
     const entriesQuery = query(
-      collectionGroup(this.firebaseService.firestore, 'entries'),
-      where('categoryId', '==', categoryId)
+      collectionGroup(this.firestore, 'entries'),
+      where('categoryId', '==', categoryId),
+      where('ownerId', '==', userId)
     );
 
     return this.getEntriesObservable(entriesQuery);
   }
 
   async addEntry(ledgerId: string, formValues: EntryFormValues) {
-    const colRef = collection(this.firebaseService.firestore, `ledgers/${ledgerId}/entries`);
+    const colRef = collection(this.firestore, `ledgers/${ledgerId}/entries`);
+    const userId = this.authService.getCurrentUser()?.uid;
 
     try {
       await addDoc(colRef, {
@@ -40,6 +52,7 @@ export class EntryService {
         amount: Number(formValues.amount),
         type: formValues.type,
         categoryId: formValues.categoryId,
+        ownerId: userId,
         createdOn: serverTimestamp()
       });
     }
@@ -47,7 +60,7 @@ export class EntryService {
   }
 
   async editEntry(ledgerId: string, entryId: string, formValues: EntryFormValues) {
-    const docRef = doc(this.firebaseService.firestore, 'ledgers', ledgerId, 'entries', entryId);
+    const docRef = doc(this.firestore, 'ledgers', ledgerId, 'entries', entryId);
 
     try {
       await updateDoc(docRef, {
@@ -61,7 +74,7 @@ export class EntryService {
   }
 
   async deleteEntry(ledgerId: string, entryId: string) {
-    const docRef = doc(this.firebaseService.firestore, 'ledgers', ledgerId, 'entries', entryId);
+    const docRef = doc(this.firestore, 'ledgers', ledgerId, 'entries', entryId);
 
     try {
       await deleteDoc(docRef);

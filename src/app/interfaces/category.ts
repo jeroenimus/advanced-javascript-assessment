@@ -3,4 +3,5 @@ export interface Category {
   name: string;
   budget: number;
   endDate: Date | null;
+  ownerId: string;
 }
