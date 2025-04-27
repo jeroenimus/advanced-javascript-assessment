@@ -12,9 +12,9 @@ This project was generated with the [Angular CLI](https://angular.dev/tools/cli)
 
 This project was made with the following [Firebase](https://firebase.google.com) products:
 
-- [App Hosting](https://firebase.google.com/products/app-hosting)
 - [Authentication](https://firebase.google.com/products/auth)
 - [Firestore](https://firebase.google.com/products/firestore)
+- [Hosting](https://firebase.google.com/products/hosting)
 
 ## Bulma
 
