@@ -11,7 +11,8 @@ import { CategoryFormValues } from '../../interfaces/category-form-values';
 })
 export class AddCategoryComponent {
   private readonly categoryService = inject(CategoryService);
-  private readonly formRef = viewChild.required(CategoryFormComponent);
+  
+  readonly formRef = viewChild.required(CategoryFormComponent);
 
   closeModal = output();
 
