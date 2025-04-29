@@ -32,7 +32,7 @@ export const routes: Routes = [
   {
     path: 'ledgers/:id',
     component: EntryListComponent,
-    canActivate: [archivedGuard, authGuard, ownerGuard]
+    canActivate: [authGuard, archivedGuard, ownerGuard]
   },
   {
     path: 'categories',
