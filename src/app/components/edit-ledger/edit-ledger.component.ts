@@ -12,7 +12,8 @@ import { LedgerService } from '../../services/ledger.service';
 })
 export class EditLedgerComponent {
   private readonly ledgerService = inject(LedgerService);
-  private readonly formRef = viewChild.required(LedgerFormComponent);
+  
+  readonly formRef = viewChild.required(LedgerFormComponent);
 
   ledger = input.required<Ledger>();
   closeModal = output();

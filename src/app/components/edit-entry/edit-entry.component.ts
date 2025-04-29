@@ -13,7 +13,8 @@ import { EntryService } from '../../services/entry.service';
 })
 export class EditEntryComponent {
   private readonly entryService = inject(EntryService);
-  private readonly formRef = viewChild.required(EntryFormComponent);
+  
+  readonly formRef = viewChild.required(EntryFormComponent);
 
   ledgerId = input.required<string>();
   entry = input.required<Entry>();
