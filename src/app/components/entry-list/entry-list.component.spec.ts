@@ -17,7 +17,7 @@ describe('EntryListComponent', () => {
   let categoryServiceSpy: jasmine.SpyObj<CategoryService>;
 
   beforeEach(() => {
-    ledgerServiceSpy = jasmine.createSpyObj('LedgerService', ['']);
+    ledgerServiceSpy = jasmine.createSpyObj('LedgerService', ['getLedgerById']);
     entryServiceSpy = jasmine.createSpyObj('EntryService', ['getEntries', 'deleteEntry']);
     categoryServiceSpy = jasmine.createSpyObj('CategoryService', ['getCategories']);
 
@@ -42,7 +42,7 @@ describe('EntryListComponent', () => {
     it ('should get all entries', () => {
       const entries: Entry[] = [
         { id: 'entry1', description: 'Entry 1', amount: 1, type: 'credit', categoryId: 'category1', ownerId: 'owner1', createdOn: new Date() },
-        { id: 'entry2', description: 'Entry 2', amount: 2, type: 'credit', categoryId: 'category1', ownerId: 'owner1', createdOn: new Date() },
+        { id: 'entry2', description: 'Entry 2', amount: 2, type: 'credit', categoryId: 'category1', ownerId: 'owner1', createdOn: new Date() }
       ];
 
       entryServiceSpy.getEntries.and.returnValue(of(entries));
@@ -60,10 +60,31 @@ describe('EntryListComponent', () => {
       subscription?.unsubscribe();
     });
 
+    it ('should filter all entries for the selected month', () => {
+      const entries: Entry[] = [
+        { id: 'entry1', description: 'Entry 1', amount: 1, type: 'credit', categoryId: 'category1', ownerId: 'owner1', createdOn: new Date(2025, 0, 1) },
+        { id: 'entry2', description: 'Entry 2', amount: 2, type: 'credit', categoryId: 'category1', ownerId: 'owner1', createdOn: new Date(2025, 1, 1) }
+      ];
+
+      component.selectedDate.next(new Date(2025, 0, 1));
+      entryServiceSpy.getEntries.and.returnValue(of(entries));
+
+      component.ngOnInit();
+
+      expect(entryServiceSpy.getEntries).toHaveBeenCalled();
+
+      const subscription = component.filteredEntries?.subscribe((entries) => {
+        expect(entries.length).toBe(1);
+        expect(entries[0].description).toBe('Entry 1');
+      });
+
+      subscription?.unsubscribe();
+    });
+
     it ('should get all categories', () => {
       const categories: Category[] = [
         { id: 'category1', name: 'Category 1', budget: 1, endDate: null, ownerId: 'owner1'},
-        { id: 'category2', name: 'Category 2', budget: 2, endDate: null, ownerId: 'owner1'},
+        { id: 'category2', name: 'Category 2', budget: 2, endDate: null, ownerId: 'owner1'}
       ];
 
       categoryServiceSpy.getCategories.and.returnValue(of(categories));
