@@ -32,9 +32,9 @@
         @for (categoryWithEntries of categoriesWithEntries | async; track categoryWithEntries.category.id) {
           <tr>
             <td>{{ categoryWithEntries.category.name }}</td>
-            <td [class.has-text-warning]="(categoryWithEntries.entries | balance | percentage: categoryWithEntries.category.budget) >= 80"
-                [class.has-text-danger]="(categoryWithEntries.entries | balance | percentage: categoryWithEntries.category.budget) >= 100">
-              {{ categoryWithEntries.entries | balance }} / {{ categoryWithEntries.category.budget }}
+            <td [class.has-text-warning]="(categoryWithEntries.entries | balance | absolute | percentage: categoryWithEntries.category.budget) >= 80"
+                [class.has-text-danger]="(categoryWithEntries.entries | balance | absolute | percentage: categoryWithEntries.category.budget) >= 100">
+              {{ categoryWithEntries.entries | balance | absolute }} / {{ categoryWithEntries.category.budget }}
             </td>
             <td>{{ categoryWithEntries.category.endDate | date: 'dd-MM-yyyy' }}</td>
             <td>

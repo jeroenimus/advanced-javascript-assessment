@@ -7,6 +7,7 @@ import { AddCategoryComponent } from '../add-category/add-category.component';
 import { EditCategoryComponent } from '../edit-category/edit-category.component';
 import { Category } from '../../interfaces/category';
 import { Entry } from '../../interfaces/entry';
+import { AbsolutePipe } from '../../pipes/absolute.pipe';
 import { BalancePipe } from '../../pipes/balance.pipe';
 import { PercentagePipe } from '../../pipes/percentage.pipe';
 import { CategoryService } from '../../services/category.service';
@@ -14,7 +15,7 @@ import { EntryService } from '../../services/entry.service';
 
 @Component({
   selector: 'app-category-list',
-  imports: [CommonModule, AddCategoryComponent, EditCategoryComponent, BalancePipe, PercentagePipe],
+  imports: [CommonModule, AddCategoryComponent, EditCategoryComponent, AbsolutePipe, BalancePipe, PercentagePipe],
   templateUrl: './category-list.component.html'
 })
 export class CategoryListComponent implements OnInit {
